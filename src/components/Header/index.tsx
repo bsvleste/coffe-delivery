@@ -1,5 +1,5 @@
 import { MapPin, ShoppingCart } from 'phosphor-react'
-import { useState } from 'react'
+
 import { Logo } from '../Logo'
 import {
   Bedges,
@@ -10,7 +10,7 @@ import {
 } from './styles'
 
 export function Header() {
-  const [hasItemInCar, setHasItemInCar] = useState(false)
+  const hasItemInCar = false
   return (
     <>
       <WrapperHeader>

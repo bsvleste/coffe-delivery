@@ -96,6 +96,9 @@ export const WrapperActionsCard = styled.div`
       height: 32px;
       color: ${theme.purple};
       border-radius: 8px;
+      svg {
+        cursor: pointer;
+      }
     }
   `}
 `

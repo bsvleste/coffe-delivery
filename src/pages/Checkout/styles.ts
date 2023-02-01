@@ -9,26 +9,6 @@ export const WrapperCheckout = styled.div`
     form {
       margin: 40px;
     }
-    .pagamentos {
-      height: 207px;
-      background-color: blanchedalmond;
-      width: 700px;
-    }
-    .carrinho {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 12px;
-      h1 {
-        font-weight: 700;
-        font-family: 'Baloo 2';
-        font-size: 18px;
-      }
-    }
-    .cafe {
-      height: 498px;
-      background-color: blanchedalmond;
-      width: 460px;
-    }
   `}
 `
 export const WrapperAdrresChekc = styled.div`

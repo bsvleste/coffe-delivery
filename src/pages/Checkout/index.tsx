@@ -1,4 +1,6 @@
 import { FormDelivery } from '../../components/FormDelivery'
+import { MethodPayment } from '../../components/MethodPayment'
+import { ShopList } from '../../components/ShopList'
 import { WrapperAdrresChekc, WrapperCheckout } from './styles'
 
 export function Checkout() {
@@ -8,12 +10,9 @@ export function Checkout() {
         <WrapperAdrresChekc>
           <h1>Complete seu pedido</h1>
           <FormDelivery />
-          <div className="pagamentos">Formas de Pagamentos</div>
+          <MethodPayment />
         </WrapperAdrresChekc>
-        <div className="carrinho">
-          <h1>Cafes Selecionados</h1>
-          <div className="cafe"> infotr</div>
-        </div>
+        <ShopList />
       </WrapperCheckout>
     </>
   )

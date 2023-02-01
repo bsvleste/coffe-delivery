@@ -10,8 +10,20 @@ import {
 } from './styles'
 import cafe1 from '../../assets/cafe1.png'
 import { Minus, Plus, ShoppingCart } from 'phosphor-react'
+import { useState } from 'react'
 
 export function CardCoffe() {
+  const [count, setCount] = useState(0)
+  function handleSubTrairQuantidade() {
+    if (count === 0) {
+      return
+    }
+    setCount((count) => count - 1)
+  }
+  function handleAdicionaQuantidade() {
+    setCount((count) => count + 1)
+  }
+
   return (
     <>
       <WrapperCard>
@@ -24,7 +36,6 @@ export function CardCoffe() {
             <h1>Expresso Gelado</h1>
             <p>Bebida preparada com cafe expresso e cubos de gelo</p>
           </WrapperDescription>
-
           <WrapperButtonCoffe>
             <WrapperPrice>
               <span>R$</span>
@@ -32,9 +43,9 @@ export function CardCoffe() {
             </WrapperPrice>
             <WrapperActionsCard>
               <div>
-                <Minus />
-                5
-                <Plus />
+                <Minus onClick={handleSubTrairQuantidade} />
+                {count}
+                <Plus onClick={handleAdicionaQuantidade} />
               </div>
               <ButtonShoppingCar>
                 <ShoppingCart weight="fill" />

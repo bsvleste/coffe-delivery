@@ -5,7 +5,6 @@ export const WrapperCheckout = styled.div`
     display: flex;
     justify-content: flex-start;
     gap: 32px;
-
     form {
       margin: 40px;
     }

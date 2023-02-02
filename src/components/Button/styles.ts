@@ -1,4 +1,4 @@
-import styled, { css, DefaultTheme } from 'styled-components'
+import styled, { css } from 'styled-components'
 import { ButtonProps } from '.'
 
 export type WrapperProps = { hasIcon: boolean } & Pick<
@@ -7,10 +7,6 @@ export type WrapperProps = { hasIcon: boolean } & Pick<
 >
 
 const wrapperModifier = {
-  smal: (theme: DefaultTheme) => css`
-    height: 3rem;
-    font-size: 0.5rem;
-  `,
   fullWidth: () => css`
     width: 100%;
   `,
@@ -19,7 +15,8 @@ const wrapperModifier = {
 export const WrapperButton = styled.button<WrapperProps>`
   ${({ theme, size, fullWidth, hasIcon }) => css`
     background-color: ${theme.yellow};
-    color: ${theme.purple};
+    border-radius: 6px;
+    color: ${theme.white};
     cursor: pointer;
     display: inline-flex;
     align-items: center;

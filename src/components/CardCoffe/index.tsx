@@ -8,46 +8,89 @@ import {
   WrapperPrice,
   WrapperSpan,
 } from './styles'
-import cafe1 from '../../assets/cafe1.png'
 import { Minus, Plus, ShoppingCart } from 'phosphor-react'
 import { useState } from 'react'
+import {
+  IProductCard,
+  useProductsInCartContext,
+} from '../../contexts/CartContext'
 
-export function CardCoffe() {
-  const [count, setCount] = useState(0)
-  function handleSubTrairQuantidade() {
-    if (count === 0) {
+export interface IProductInCartData {
+  id: string
+  quantity: number
+  valor: number
+}
+
+export function CardCoffe({
+  id,
+  description,
+  url,
+  tag,
+  title,
+
+  valor,
+  addItemToCart,
+}: IProductCard) {
+  const { incrementCartItemAmount, decrementCartItemAmount } =
+    useProductsInCartContext()
+  const [quantity, setQuantity] = useState(0)
+
+  function handleSubTrairQuantidade(id: string) {
+    if (quantity <= 0) {
       return
     }
-    setCount((count) => count - 1)
+    setQuantity((quantity) => quantity - 1)
+    decrementCartItemAmount(id)
   }
-  function handleAdicionaQuantidade() {
-    setCount((count) => count + 1)
+  function handleAdicionaQuantidade(id: string) {
+    setQuantity((quantity) => quantity + 1)
+    incrementCartItemAmount(id)
   }
 
   return (
     <>
       <WrapperCard>
         <WrapperCafe>
-          <img src={cafe1} alt="foto de cafe" />
+          <img src={url} alt={title} />
           <WrapperSpan>
-            <span>Tradicional</span>
+            {tag.map((tags, index) => (
+              <span key={index}>{tags}</span>
+            ))}
           </WrapperSpan>
           <WrapperDescription>
-            <h1>Expresso Gelado</h1>
-            <p>Bebida preparada com cafe expresso e cubos de gelo</p>
+            <h1>{title}</h1>
+            <p>{description}</p>
           </WrapperDescription>
           <WrapperButtonCoffe>
             <WrapperPrice>
               <span>R$</span>
-              <strong>9,90</strong>
+              <strong>{valor.toFixed(2)}</strong>
             </WrapperPrice>
             <WrapperActionsCard>
               <div>
-                <Minus onClick={handleSubTrairQuantidade} />
-                {count}
-                <Plus onClick={handleAdicionaQuantidade} />
+                <Minus
+                  onClick={() => {
+                    handleSubTrairQuantidade(id)
+                  }}
+                />
+                {quantity}
+                <Plus
+                  onClick={() => {
+                    handleAdicionaQuantidade(id)
+                  }}
+                />
               </div>
-              <ButtonShoppingCar>
+
+              <ButtonShoppingCar
+                onClick={() => {
+                  if (addItemToCart)
+                    addItemToCart({
+                      id,
+                      quantity,
+                      valor,
+                    })
+                }}
+              >
                 <ShoppingCart weight="fill" />
               </ButtonShoppingCar>
             </WrapperActionsCard>

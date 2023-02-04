@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components'
 import { ItensProps } from '.'
 
 export const ItensWrapper = styled.div<ItensProps>`
-  ${({ theme, color }) => css`
+  ${({ theme, color, width, height }) => css`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -13,8 +13,8 @@ export const ItensWrapper = styled.div<ItensProps>`
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 24px;
-      height: 24px;
+      width: ${width}px;
+      height: ${height}px;
       border-radius: 999%;
       color: #fff;
       background-color: ${theme[color!]};

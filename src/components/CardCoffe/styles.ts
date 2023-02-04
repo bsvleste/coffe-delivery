@@ -32,10 +32,22 @@ export const WrapperDescription = styled.div`
     font-family: 'Roboto';
     text-align: center;
     h1 {
-      font-size: 28px;
+      text-align: center;
+      font-family: 'Baloo 2';
+      font-style: normal;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 130%;
     }
     p {
-      font-size: small;
+      font-family: 'Roboto';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 130%;
+      /* or 18px */
+
+      text-align: center;
       color: ${theme['base-label']};
     }
   `}
@@ -53,6 +65,7 @@ export const WrapperSpan = styled.div`
       border-radius: 900px;
       background-color: ${theme['yellow-light']};
       margin-right: 12px;
+      text-transform: uppercase;
     }
   `}
 `
@@ -109,5 +122,6 @@ export const ButtonShoppingCar = styled.button`
     border-radius: 8px;
     background-color: ${theme.purple};
     color: ${theme.white};
+    cursor: pointer;
   `}
 `

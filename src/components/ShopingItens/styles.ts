@@ -1,5 +1,7 @@
 import styled, { css } from 'styled-components'
 
+export const EmptyCart = styled.h1``
+
 export const WrapperShopingItens = styled.div`
   ${({ theme }) => css`
     display: flex;

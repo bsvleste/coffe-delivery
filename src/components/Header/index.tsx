@@ -8,24 +8,27 @@ import {
 } from './styles'
 import { MapPin, ShoppingCart } from 'phosphor-react'
 import { useProductsInCartContext } from '../../contexts/CartContext'
+import { NavLink } from 'react-router-dom'
 export function Header() {
   const { itemsInCart } = useProductsInCartContext()
   const bedge = itemsInCart.length
-  console.log(`numero de ${bedge}`)
   const hasItemInCar = itemsInCart.length > 0
-  console.log(itemsInCart)
   return (
     <header>
       <WrapperNav>
-        <Logo />
+        <NavLink to="/">
+          <Logo />
+        </NavLink>
         <WrapperInfoCarshopping>
           <Location>
             <MapPin size={22} weight="fill" />
             São Paulo, SP
           </Location>
-          <ButtonShoppingCar>
-            <ShoppingCart size={22} weight="fill" />
-          </ButtonShoppingCar>
+          <NavLink to="/checkout">
+            <ButtonShoppingCar>
+              <ShoppingCart size={22} weight="fill" />
+            </ButtonShoppingCar>
+          </NavLink>
           {hasItemInCar && <Bedges>{bedge}</Bedges>}
         </WrapperInfoCarshopping>
       </WrapperNav>

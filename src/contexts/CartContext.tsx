@@ -6,6 +6,7 @@ import {
   useContext,
   useState,
 } from 'react'
+import { data } from '../repository/productsRepository'
 
 export interface IProductInCartData {
   id: string
@@ -79,7 +80,6 @@ export const useProductsInCartContext = () => {
         }
         return cartItem
       })
-      console.log(itemsInCart)
       setItemsInCart(newCartItem)
     }
   }
@@ -102,90 +102,55 @@ export const useProductsInCartContext = () => {
     setItemsInCart(
       cartWithUpdatedAmount.filter((item) => !!item) as IProductInCartData[],
     )
-    console.log(itemsInCart)
   }
 
-  // function removeItemFromCart(itemToRemove: IProductInCartData) {
-  //   const updatedItems = itemsInCart.filter(
-  //     (item) => item.id !== itemToRemove.id,
-  //   )
+  function removeItemFromCart(itemToRemove: IProductInCartData) {
+    const updatedItems = itemsInCart.filter(
+      (item) => item.id !== itemToRemove.id,
+    )
 
-  //   setItemsInCart(updatedItems)
-  // }
+    setItemsInCart(updatedItems)
+  }
 
-  // function incrementCartItemAmount(itemId: number) {
-  //   const itemExists = itemsInCart.find((item) => item.id === itemId)
-  //   if (itemExists) {
-  //     const newCartItem = itemsInCart.map((cartItem: IProductInCartData) => {
-  //       if (cartItem.id === itemId) {
-  //         cartItem.quantity += 1
-  //       }
-  //       return cartItem
-  //     })
+  function getTotalQuantity() {
+    let totalAmount: number = 0
 
-  //     setItemsInCart(newCartItem)
-  //   }
-  // }
+    for (const i in itemsInCart) {
+      totalAmount += itemsInCart[i].quantity
+    }
 
-  // const decrementCartItemAmount = (itemId: number) => {
-  //   const cartWithUpdatedAmount = itemsInCart.map(
-  //     (cartItem: IProductInCartData) => {
-  //       if (cartItem.id === itemId) {
-  //         const shouldRemoveItem = cartItem.quantity - 1 === 0
+    return totalAmount
+  }
 
-  //         return shouldRemoveItem
-  //           ? undefined
-  //           : { ...cartItem, quantity: cartItem.quantity - 1 }
-  //       }
+  function getItemsData() {
+    const itemsIds = itemsInCart.map((item) => item.id)
+    const itemsRetrieved = data.filter((product) => {
+      return itemsIds.includes(product.id)
+    })
 
-  //       return cartItem
-  //     },
-  //   )
+    itemsRetrieved.forEach((product) => {
+      const itemInCart = itemsInCart.find((item) => item.id === product.id)
+      if (itemInCart) {
+        product.quantity = itemInCart.quantity
+      }
+    })
 
-  //   setItemsInCart(
-  //     cartWithUpdatedAmount.filter((item) => !!item) as IProductInCartData[],
-  //   )
-  // }
+    return itemsRetrieved
+  }
 
-  // function getTotalQuantity() {
-  //   let totalAmount: number = 0
+  function emptyCart() {
+    setItemsInCart([])
+  }
 
-  //   for (const i in itemsInCart) {
-  //     totalAmount += itemsInCart[i].quantity
-  //   }
+  function calculateTotalCartPrice() {
+    let totalPriceAmount = 0
 
-  //   return totalAmount
-  // }
+    for (const item of itemsInCart) {
+      totalPriceAmount += item.valor * item.quantity
+    }
 
-  // function getItemsData() {
-  //   const itemsIds = itemsInCart.map((item) => item.id)
-  //   const itemsRetrieved = PRODUCTS_REPOSITORY.filter((product) => {
-  //     return itemsIds.includes(product.id)
-  //   })
-
-  //   itemsRetrieved.forEach((product) => {
-  //     const itemInCart = itemsInCart.find((item) => item.id === product.id)
-  //     if (itemInCart) {
-  //       product.quantity = itemInCart.quantity
-  //     }
-  //   })
-
-  //   return itemsRetrieved
-  // }
-
-  // function emptyCart() {
-  //   setItemsInCart([])
-  // }
-
-  // function calculateTotalCartPrice() {
-  //   let totalPriceAmount = 0
-
-  //   for (const item of itemsInCart) {
-  //     totalPriceAmount += item.price * item.quantity
-  //   }
-
-  //   return totalPriceAmount
-  // }
+    return totalPriceAmount
+  }
 
   return {
     itemsInCart,
@@ -193,10 +158,10 @@ export const useProductsInCartContext = () => {
     addItemToCart,
     incrementCartItemAmount,
     decrementCartItemAmount,
-    // removeItemFromCart,
-    // getTotalQuantity,
-    // getItemsData,
-    // calculateTotalCartPrice,
-    // emptyCart,
+    removeItemFromCart,
+    getTotalQuantity,
+    getItemsData,
+    calculateTotalCartPrice,
+    emptyCart,
   }
 }

@@ -18,6 +18,7 @@ export const ButtonShoppingCar = styled.button`
     border-radius: 8px;
     background-color: ${theme['yellow-light']};
     color: ${theme['yellow-dark']};
+    cursor: pointer;
   `}
 `
 export const Location = styled.div`

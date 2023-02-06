@@ -1,60 +1,81 @@
-import expresso from '../../assets/expresso.png'
+/* eslint-disable prettier/prettier */
 import { Minus, Plus, TrashSimple } from 'phosphor-react'
-import { useState } from 'react'
 import {
   ButtonPedidos,
   ButtonTrash,
   CardTotalPedidos,
+  EmptyCart,
   GroupButtons,
   ItensPedidos,
   TotalPedidos,
   WrapperShopingItens,
 } from './styles'
+import { useProductsInCartContext } from '../../contexts/CartContext'
+import { formatPrice } from '../../util/formatPrice'
 
 export function ShopingItens() {
-  const [count, setCount] = useState(0)
-  function handleSubTrairQuantidade() {
-    if (count === 0) {
-      return
-    }
-    setCount((count) => count - 1)
+  const { itemsInCart, getItemsData, removeItemFromCart, incrementCartItemAmount, decrementCartItemAmount, calculateTotalCartPrice } = useProductsInCartContext()
+  const carsItens = getItemsData()
+  const DELIVERY_FLAT_RATE: number = 3.5
+  const totalOrderCart = DELIVERY_FLAT_RATE + calculateTotalCartPrice()
+
+  function handleSubTrairQuantidade(id: string) {
+
+    decrementCartItemAmount(id)
   }
-  function handleAdicionaQuantidade() {
-    setCount((count) => count + 1)
+  function handleAdicionaQuantidade(id: string) {
+
+    incrementCartItemAmount(id)
   }
+
+  console.log(itemsInCart)
   return (
     <>
-      <WrapperShopingItens>
-        <img src={expresso} alt="" />
-        <div>
-          <p>Expresso Tradicional</p>
-          <ButtonPedidos>
-            <GroupButtons>
-              <Minus onClick={handleSubTrairQuantidade} />
-              {count}
-              <Plus onClick={handleAdicionaQuantidade} />
-            </GroupButtons>
-            <ButtonTrash>
-              <TrashSimple />
-              <span>Remover</span>
-            </ButtonTrash>
-          </ButtonPedidos>
-        </div>
-        <h1>R$9,90</h1>
-      </WrapperShopingItens>
-      <CardTotalPedidos>
-        <ItensPedidos>
-          <p>Total de itens</p>
-          <h4>R$29,70</h4>
-        </ItensPedidos>
-        <ItensPedidos>
-          <p>Entrega</p>
-          <h4>R$3,50</h4>
-        </ItensPedidos>
-        <TotalPedidos>
-          <h1>Total</h1> <h1>R$33,20</h1>
-        </TotalPedidos>
-      </CardTotalPedidos>
+      {
+        carsItens.length > 0 ? (
+          <div>
+            {
+              carsItens.map((itens, index) => (
+                <>
+                  <WrapperShopingItens key={index}>
+                    <img src={itens.url} alt="" />
+                    <div>
+                      <p>{itens.title}</p>
+                      <ButtonPedidos>
+                        <GroupButtons>
+                          <Minus onClick={() => { handleSubTrairQuantidade(itens.id) }} />
+                          {itens.quantity ? itens.quantity : 1}
+                          <Plus onClick={() => { handleAdicionaQuantidade(itens.id) }} />
+                        </GroupButtons>
+                        <ButtonTrash onClick={() => { removeItemFromCart({ id: itens.id, valor: 0, quantity: 0 }) }}>
+                          <TrashSimple />
+                          <span>Remover</span>
+                        </ButtonTrash>
+                      </ButtonPedidos>
+                    </div>
+                    <h1>{formatPrice(itens.valor * itens.quantity)}</h1>
+                  </WrapperShopingItens>
+                </>
+
+              ))
+            }
+            <CardTotalPedidos>
+              <ItensPedidos>
+                <p>Total de itens</p>
+                <h4>{formatPrice(calculateTotalCartPrice())}</h4>
+              </ItensPedidos>
+              <ItensPedidos>
+                <p>Entrega</p>
+                <h4>{formatPrice(DELIVERY_FLAT_RATE)}</h4>
+              </ItensPedidos>
+              <TotalPedidos>
+                <h1>Total</h1> <h1>{formatPrice(totalOrderCart)}</h1>
+              </TotalPedidos>
+            </CardTotalPedidos>
+          </div>
+        ) : (<EmptyCart>Carrinho vazio</EmptyCart>)
+      }
     </>
+
   )
 }

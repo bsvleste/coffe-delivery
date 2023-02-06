@@ -27,7 +27,6 @@ export function CardCoffe({
   url,
   tag,
   title,
-
   valor,
   addItemToCart,
 }: IProductCard) {
@@ -46,7 +45,17 @@ export function CardCoffe({
     setQuantity((quantity) => quantity + 1)
     incrementCartItemAmount(id)
   }
-
+  function handleAddItemToCart() {
+    if (quantity > 0 && addItemToCart) {
+      addItemToCart({
+        id,
+        quantity,
+        valor,
+      })
+    } else {
+      alert('Selecione a quantidade')
+    }
+  }
   return (
     <>
       <WrapperCard>
@@ -81,16 +90,7 @@ export function CardCoffe({
                 />
               </div>
 
-              <ButtonShoppingCar
-                onClick={() => {
-                  if (addItemToCart)
-                    addItemToCart({
-                      id,
-                      quantity,
-                      valor,
-                    })
-                }}
-              >
+              <ButtonShoppingCar onClick={handleAddItemToCart}>
                 <ShoppingCart weight="fill" />
               </ButtonShoppingCar>
             </WrapperActionsCard>

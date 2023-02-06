@@ -9,7 +9,6 @@ export function ShopList() {
       </WrapperShopList>
       <WrapperCard>
         <ShopingItens />
-
         <Button fullWidth>Confirme seu Pedido</Button>
       </WrapperCard>
     </WrapperInfos>
